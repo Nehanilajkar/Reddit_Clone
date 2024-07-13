@@ -57,16 +57,16 @@ pipeline
            sh 'docker build -t reddit:v1 .'
          }
     }
-    stage('Docker Image Push')
-    {
-	 steps
-	    {
-	withCredentials([usernamePassword(credentialsId: 'DockerHub_token', passwordVariable: 'password', usernameVariable: 'username')]) {
-		sh 'docker login -u $username -p $password'
-		sh 'docker tag reddit:v1 krira259/reddit:v1'
-		sh 'docker push krira259/reddit:v1'
-		}
-	    }
-    }
+ //    stage('Docker Image Push')
+ //    {
+	//  steps
+	//     {
+	// withCredentials([usernamePassword(credentialsId: 'DockerHub_token', passwordVariable: 'password', usernameVariable: 'username')]) {
+	// 	sh 'docker login -u $username -p $password'
+	// 	sh 'docker tag reddit:v1 krira259/reddit:v1'
+	// 	sh 'docker push krira259/reddit:v1'
+	// 	}
+	//     }
+ //    }
   }
 }
