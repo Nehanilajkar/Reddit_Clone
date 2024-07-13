@@ -11,6 +11,10 @@ pipeline
     SCANNER_HOME = tool 'sonar-scanner'
   }
   stages{
+    stage('Clean Workspace')
+    {
+	    steps{cleanWs()}
+    }
     stage('Code Checkout')
     {
       steps
