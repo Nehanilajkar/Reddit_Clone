@@ -47,11 +47,21 @@ pipeline
             sh "trivy fs . > trivyfs.txt"
          }
      }
-	  stage("Build & Push Docker Image")
+    stage("Build Docker Image")
     {
          steps {
            sh 'docker build -t reddit:v1 .'
          }
+    }
+    stage('Docker Image Push')
+    {
+	 steps
+	    {
+	withDockerRegistry(credentialsId: 'DockerHub_token', toolName: 'docker', url: 'https://hub.docker.com/') {
+    		sh 'docker tag reddit:v1 krira259/reddit:v1'
+		sh 'docker push krira259/reddit:v1'
+		}
+	    }
     }
   }
 }
