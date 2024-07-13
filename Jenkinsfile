@@ -28,5 +28,30 @@ pipeline
         }
       }
     }
+    stage('Quality Gates')
+    {
+      steps
+      { 
+        script{waitForQualityGate abortPipeline: false, credentialsId: 'SonarQube_token'}
+      }  
+    }
+    stage('Install Dependencies')
+    {
+            steps {
+                sh "npm install"
+            }
+    }
+    stage('TRIVY FS SCAN') 
+    {
+        steps {
+            sh "trivy fs . > trivyfs.txt"
+         }
+     }
+	  stage("Build & Push Docker Image")
+    {
+         steps {
+           sh 'docker build -t reddit:v1 .'
+         }
+    }
   }
 }
