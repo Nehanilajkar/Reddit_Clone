@@ -37,9 +37,9 @@ pipeline
     }
     stage('Install Dependencies')
     {
-            steps {
+        steps {
                 sh "npm install"
-            }
+        }
     }
     stage('TRIVY FS SCAN') 
     {
@@ -57,8 +57,9 @@ pipeline
     {
 	 steps
 	    {
-	withDockerRegistry(credentialsId: 'DockerHub_token', toolName: 'docker', url: 'https://hub.docker.com/') {
-    		sh 'docker tag reddit:v1 krira259/reddit:v1'
+	withCredentials([usernamePassword(credentialsId: 'DockerHub_token', passwordVariable: 'password', usernameVariable: 'username')]) {
+		sh 'docker login -u $username -p $password'
+		sh 'docker tag reddit:v1 krira259/reddit:v1'
 		sh 'docker push krira259/reddit:v1'
 		}
 	    }
