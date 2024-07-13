@@ -6,6 +6,10 @@ pipeline
     jdk "jdk17"
     nodejs "node16"
   }
+  environment
+  {
+    SCANNER_HOME = tool 'sonar-scanner'
+  }
   stages{
     stage('Code Checkout')
     {
@@ -19,7 +23,8 @@ pipeline
       steps
       { 
         withSonarQubeEnv('sonarqube_server') {
-         sh 'mvn sonar:sonar'
+         sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Redditclone-CI \
+                    -Dsonar.projectKey=Redditclone-CI'''
         }
       }
     }
